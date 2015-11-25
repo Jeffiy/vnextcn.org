@@ -65,30 +65,20 @@
                     <div class="block-outer">
                         @foreach (Contest x in ViewBag.Contests)
                         {
-                            @if (x.Status == ContestStatus.Pending)
-                            { 
-                            <div class="block blue">
+                            var result = string.Empty;
+                            if (x.Status == ContestStatus.Pending)
+                            {
+                                result = "blue";
+                            }
+                            else if(x.Status == ContestStatus.Live)
+                            {
+                                result = "red";
+                            }
+                            <div class="block @result">
                                 <h2><a asp-action="Show" asp-controller="Contest" asp-route-id="@x.Id">@x.Title</a></h2>
                                 <p class="small"><span>@x.Begin.ToString("yyyy-MM-dd HH:mm") ~ @x.End.ToString("yyyy-MM-dd HH:mm")</span></p>
                                 @Html.Sanitize(Html.Marked(x.Description).ToString())
                             </div>
-                            }
-                            else if (x.Status == ContestStatus.Live)
-                            {
-                                <div class="block red">
-                                    <h2><a asp-action="Show" asp-controller="Contest" asp-route-id="@x.Id">@x.Title</a></h2>
-                                    <p class="small"><span>@x.Begin.ToString("yyyy-MM-dd HH:mm") ~ @x.End.ToString("yyyy-MM-dd HH:mm")</span></p>
-                                    @Html.Sanitize(Html.Marked(x.Description).ToString())
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="block">
-                                    <h2><a asp-action="Show" asp-controller="Contest" asp-route-id="@x.Id">@x.Title</a></h2>
-                                    <p class="small"><span>@x.Begin.ToString("yyyy-MM-dd HH:mm") ~ @x.End.ToString("yyyy-MM-dd HH:mm")</span></p>
-                                    @Html.Sanitize(Html.Marked(x.Description).ToString())
-                                </div>
-                            }
                         }
                     </div>
                 </div>

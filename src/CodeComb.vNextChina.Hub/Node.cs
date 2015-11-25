@@ -84,7 +84,7 @@ namespace CodeComb.vNextChina.Hub
         public void Init()
         {
             Console.WriteLine($"正在初始化{Alias}");
-            Timer = new Timer(x => { HeartBeat(); }, null, 0, 1000 * 10);
+            Timer = new Timer(x => HeartBeat(), null, 0, 1000 * 10);
             RefreshNodeInfo();
         }
 
@@ -115,10 +115,7 @@ namespace CodeComb.vNextChina.Hub
                 { "AdditionalEnvironmentVariables", AdditionalEnvironmentVariables }
             }));
             Console.WriteLine($"{Alias} 成功接收任务#{id}");
-            if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                return true;
-            else
-                return false;
+            return result.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
         public async Task<bool> SendJudgeTask(long id, byte[] user, byte[] problem, string nuget)
@@ -132,10 +129,7 @@ namespace CodeComb.vNextChina.Hub
                 content.Add(new StringContent(nuget), "nuget");
                 var result = await client.PostAsync("/api/ci/newjudge", content);
                 Console.WriteLine($"{Alias} 成功接收任务#{id}");
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                    return true;
-                else
-                    return false;
+                return result.StatusCode == System.Net.HttpStatusCode.OK;
             }
         }
     }
